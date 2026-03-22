@@ -1,0 +1,34 @@
+# Prometheus + Grafana via kube-prometheus-stack Helm chart
+# Install: helm install monitoring prometheus-community/kube-prometheus-stack -f monitoring/values.yaml
+
+grafana:
+  service:
+    type: NodePort
+    nodePort: 30300
+  adminPassword: "changeme"   # Change this!
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          folder: StatusWatch
+          type: file
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+
+    # Scrape our app's /metrics endpoint
+    additionalScrapeConfigs:
+      - job_name: "statuswatch"
+        static_configs:
+          - targets: ["statuswatch.statuswatch.svc.cluster.local:8000"]
