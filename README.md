@@ -168,4 +168,4 @@ Dashboards include:
 
 ---
 
-*Built by [Your Name] — [LinkedIn](https://linkedin.com/in/yourprofile)*
+*Built by [Avishag Tzruya] — [LinkedIn](https://www.linkedin.com/in/avishag-tzruya-ba93983a2/)*
